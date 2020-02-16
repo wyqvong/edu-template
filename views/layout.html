@@ -15,15 +15,12 @@
     <!-- 主体 -->
     <div class="main">
         {% include "sidebar.html" %}
-        <!-- 其它页面自已调整吧 -->
-        {% block body %}
-        
+        {% block body %}     
         {% endblock %}
     </div>
     <script src="/node_modules/jquery/dist/jquery.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/node_modules/nprogress/nprogress.js"></script>
-    
     <script src="/public/js/common.js"></script>
     
     {% block script %}
