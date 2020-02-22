@@ -18,6 +18,25 @@ router.get('/', (req, res, next) => {
 
 
 router.post('/advert/add', (req, res, next) => {
+    //1. 接收表单提交数据
+    const body = req.body
+    //2.操作数据库
+    const advert = new Advert({
+        title: body.title,
+        image: body.image,
+        link: body.link,
+        start_time: body.start_time,
+        end_time: body.end_time,
+    })
+
+    advert.save((err, result) => {
+        if (err) {
+            return next(err)
+        }
+        res.json({
+            err_code: 0
+        })
+    })
     //1.接收客户端提交的数据
     //2.操作数据库
     //3.发送响应信息
@@ -46,24 +65,33 @@ router.post('/advert/add', (req, res, next) => {
     //     //3.关闭连接
     //     client.close()
     // })
+})
 
-    //1. 接收表单提交数据
-    const body = req.body
-    //2.操作数据库
-    const advert = new Advert({
-        title: body.title,
-        image: body.image,
-        link: body.link,
-        start_time: body.start_time,
-        end_time: body.end_time,
-    })
 
-    advert.save((err, result) => {
+router.get('/advert/list', (req, res, next) => {
+    Advert.find((err, docs) => {
         if (err) {
             return next(err)
         }
         res.json({
-            err_code: 0
+            err_code: 0,
+            result: docs
+        })
+    })
+})
+
+// /advert/one/:advertId 是一个模糊匹配路径 可以匹配/advert/one/* 的路径形式
+// 例如：/advert/one/1 /advert/one/2 /advert/one/a /advert/one/abc 等路径
+// 但是 /advert/one 或者 /advert/one/a/b 是不行的
+// 至于 advertId 是自己起的一个名字，可以在处理函数中通过req.params 来进行获取
+router.get('/advert/one/:advertId', (req, res, next) => {
+    Advert.findById(req.params.advertId, (err, result) => {
+        if (err) {
+            return next(err)
+        }
+        res.json({
+            err_code: 0,
+            result: result
         })
     })
 })

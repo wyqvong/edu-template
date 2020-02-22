@@ -4,6 +4,7 @@ mongoose.connect('mongodb://localhost/edu')
 
 //1.创建一个模型架构，设计数据结构和约束
 const advertSchema = mongoose.Schema({
+    title: { type: String, required: true },
     image: { type: String, required: true },
     link: { type: String, required: true },
     start_time: { type: Date, required: true },
