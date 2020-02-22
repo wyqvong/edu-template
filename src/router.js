@@ -122,4 +122,17 @@ router.post('/advert/edit', (req, res, next) => {
 })
 
 
+router.get('/advert/remove/:advertId', (req, res, next) => {
+    Advert.remove({ _id: req.params.advertId }, err => {
+        if (err) {
+            return next(err)
+        }
+        res.json({
+            err_code: 0
+        })
+    })
+})
+
+
+
 export default router
