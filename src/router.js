@@ -96,5 +96,30 @@ router.get('/advert/one/:advertId', (req, res, next) => {
     })
 })
 
+router.post('/advert/edit', (req, res, next) => {
+    Advert.findById(req.body.id, (err, advert) => {
+        if (err) {
+            return next(err)
+        }
+        const body = req.body
+        advert.title = body.title
+        advert.image = body.image
+        advert.link = body.link
+        advert.start_time = body.start_time
+        advert.end_time = body.end_time
+        advert.last_modified = Date.now()
+
+        //这里的save因为内部有一个_id所以这里是不会新增数据的，而是更新已有的数据
+        advert.save((err, result) => {
+            if (err) {
+                return next(err)
+            }
+            res.json({
+                err_code: 0
+            })
+        })
+    })
+})
+
 
 export default router
