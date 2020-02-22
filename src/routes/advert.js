@@ -3,36 +3,60 @@ import express from 'express'
 // import mongodb from 'mongodb'
 // import fs from 'fs'
 import Advert from '../models/advert'
-
+import formidable from 'formidable'
 // const MongoClient = mongodb.MongoClient
 // const url = 'mongodb://localhost:27017/edu'
 
 //创建一个路由容器，将所有的路由中间件挂载给路由容器
 const router = express.Router()
 
+router.get('/advert', (req, res, next) => {
+    res.render('advert_list.html')
+})
 
+router.get('/advert/add', (req, res, next) => {
+    res.render('advert_add.html')
+})
 
 
 router.post('/advert/add', (req, res, next) => {
     //1. 接收表单提交数据
-    const body = req.body
-    //2.操作数据库
-    const advert = new Advert({
-        title: body.title,
-        image: body.image,
-        link: body.link,
-        start_time: body.start_time,
-        end_time: body.end_time,
-    })
+    // const body = req.body
 
-    advert.save((err, result) => {
+    const from = new formidable.IncomingForm()
+    //fields就是接收到的表单中的普通字段
+    //files就是表单中文件上传上来的一些文件信息
+    from.parse(req, (err, fields, files) => {
         if (err) {
             return next(err)
         }
-        res.json({
-            err_code: 0
+        const body = fields
+
+        //在这里把files中的图片处理一下
+        //就是在body中添加一个image值就是把图片上传上来的路径
+        console.log(body)
+        //2.操作数据库
+        const advert = new Advert({
+            title: body.title,
+            image: body.image,
+            link: body.link,
+            start_time: body.start_time,
+            end_time: body.end_time,
+        })
+
+        advert.save((err, result) => {
+            if (err) {
+                return next(err)
+            }
+            res.json({
+                err_code: 0
+            })
         })
     })
+
+
+
+
     //1.接收客户端提交的数据
     //2.操作数据库
     //3.发送响应信息

@@ -13,9 +13,11 @@ app.use('/node_modules', express.static(config.node_modules_path))
 app.use('/public', express.static(config.public_path))
 
 //配置使用nunjucks模板引擎
+
 nunjucks.configure(config.viewPath, {
     autoescape: true,
-    express: app
+    express: app,
+    noCache: true //numjucks模板引擎会默认缓存输出过的文件，为了开发方便可以吧缓存禁用，可以实时看到模板文件修改后的变化
 })
 
 //挂载解析处理表单POST的请求体中间件
