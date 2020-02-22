@@ -1,7 +1,8 @@
 import express from 'express'
 import config from './config'
 import nunjucks from 'nunjucks'
-import router from './router'
+import indexRouter from './routes/index'
+import advertRouter from './routes/advert'
 import queryString from 'querystring'
 import bodyParser from './middlewares/body-parser'
 import errorLog from './middlewares/error-log'
@@ -27,7 +28,9 @@ app.use(bodyParser)
 
 
 //挂载路由容器(路由容器中组织了网站功能处理路由中间件)
-app.use(router)
+app.use(indexRouter)
+app.use(advertRouter)
+
 
 app.use(errorLog)
 

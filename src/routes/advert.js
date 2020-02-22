@@ -1,19 +1,15 @@
 import express from 'express'
-import queryString from 'querystring'
-import mongodb from 'mongodb'
-import fs from 'fs'
-import Advert from './models/advert'
+// import queryString from 'querystring'
+// import mongodb from 'mongodb'
+// import fs from 'fs'
+import Advert from '../models/advert'
 
-const MongoClient = mongodb.MongoClient
-const url = 'mongodb://localhost:27017/edu'
+// const MongoClient = mongodb.MongoClient
+// const url = 'mongodb://localhost:27017/edu'
 
 //创建一个路由容器，将所有的路由中间件挂载给路由容器
 const router = express.Router()
 
-
-router.get('/', (req, res, next) => {
-    res.render('index.html')
-})
 
 
 
