@@ -30,7 +30,7 @@ router.get('/advert', (req, res, next) => {
                     return next(err)
                 }
                 const totalPage = Math.ceil(count / pageSize)//总页码=总记录数/每页显示大小
-                res.render('advert_list.html', { adverts, totalPage })
+                res.render('advert_list.html', { adverts, totalPage, page })
             })
         })
 })
