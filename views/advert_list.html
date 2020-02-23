@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in data %}
+                            {% for item in adverts %}
                             <tr>
                                 <td>0</td>
                                 <td>{{item.title}}</td>
@@ -67,7 +67,7 @@
                     <li><a href="/advert?page={{page-1}}">上一页</a></li>
                     {% endif %}
                     {% for i in range(0,totalPage) %}
-                     <li><a href="/advert?page={{i+1}}">{{ i+1 }}</a></li>
+                     <li class="active"><a href="/advert?page={{i+1}}">{{ i+1 }}</a></li>
                      {% endfor %}
                     {% if page === totalPage %}
                     <li><a href="">下一页</a></li>

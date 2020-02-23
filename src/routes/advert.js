@@ -7,14 +7,32 @@ import formidable from 'formidable'
 // const MongoClient = mongodb.MongoClient
 // const url = 'mongodb://localhost:27017/edu'
 import config from '../config'
-import {basename} from 'path'
+import { basename } from 'path'
 
 
 //创建一个路由容器，将所有的路由中间件挂载给路由容器
 const router = express.Router()
 
 router.get('/advert', (req, res, next) => {
-    res.render('advert_list.html')
+    const page = Number.parseInt(req.query.page, 10)
+    //分页查询数据
+    const pageSize = 5
+    Advert
+        .find()
+        .skip((page - 1) * pageSize)
+        .limit(pageSize)
+        .exec((err, adverts) => {
+            if (err) {
+                return next(err)
+            }
+            Advert.count((err, count) => {
+                if (err) {
+                    return next(err)
+                }
+                const totalPage = Math.ceil(count / pageSize)//总页码=总记录数/每页显示大小
+                res.render('advert_list.html', { adverts, totalPage })
+            })
+        })
 })
 
 router.get('/advert/add', (req, res, next) => {

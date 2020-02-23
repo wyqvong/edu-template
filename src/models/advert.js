@@ -13,8 +13,8 @@ const advertSchema = mongoose.Schema({
     last_modified: { type: Date, default: Date.now },
 })
 //2.通过mongoose.model（）将架构发布为一个模型
-export default mongoose.model('Advert', advertSchema)
-
-
-
 //3.通过操作模型去操作你的数据库 保存实例数据对象
+
+const Advert = mongoose.model('Advert', advertSchema)
+export default Advert
+
