@@ -6,6 +6,9 @@ import Advert from '../models/advert'
 import formidable from 'formidable'
 // const MongoClient = mongodb.MongoClient
 // const url = 'mongodb://localhost:27017/edu'
+import config from '../config'
+import {basename} from 'path'
+
 
 //创建一个路由容器，将所有的路由中间件挂载给路由容器
 const router = express.Router()
@@ -24,17 +27,19 @@ router.post('/advert/add', (req, res, next) => {
     // const body = req.body
 
     const from = new formidable.IncomingForm()
+    from.uploadDir = config.uploadDir//配置formidable文件上传接收路径
+    from.keepExtensions = true//配置保持文件原始的扩展
+
     //fields就是接收到的表单中的普通字段
     //files就是表单中文件上传上来的一些文件信息
     from.parse(req, (err, fields, files) => {
         if (err) {
             return next(err)
         }
-        const body = fields
-
         //在这里把files中的图片处理一下
         //就是在body中添加一个image值就是把图片上传上来的路径
-        console.log(body)
+        const body = fields
+        body.image = basename(files.image.path)
         //2.操作数据库
         const advert = new Advert({
             title: body.title,

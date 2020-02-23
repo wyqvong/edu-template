@@ -7,6 +7,10 @@ export default (errLog, req, res, next) => {
     //2.发送响应给用户，给一些友好的提示信息
     //{错误名称：错误信息：错误堆栈：错误发生时间}
     MongoClient.connect(url, (err, client) => {
+        if(err) {
+			return next(err);
+        }
+        // 操作数据库
         const db =client.db('edu')
         db
             .collection('error_logs')
